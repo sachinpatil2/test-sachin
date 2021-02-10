@@ -1,0 +1,81 @@
+<div class="container">
+  <form class="form-horizontal" role="form" [formGroup]="paymentForm" (ngSubmit)="onSubmit()">
+    <fieldset>
+      <legend>Credit Card Payment</legend>
+      <div class="form-group">
+        <label class="col-sm-3 control-label" for="card-number">Credit Card Number (16 digit)</label>
+        <div class="col-sm-9">
+          <input class="form-control" type="number" formControlName="cardNumber" placeholder="1234567890123456" [ngClass]="{ 'is-invalid': formControls.cardNumber.errors  && (formControls.cardNumber.dirty || formControls.cardNumber.touched)}">
+          <div *ngIf="!formControls.cardNumber.valid && (formControls.cardNumber.dirty || formControls.cardNumber.touched)" class="invalid-feedback">
+              <div *ngIf="formControls.cardNumber.errors" class="alert alert-danger">Invalid Card Number.</div>
+          </div>
+          </div>
+      </div>
+      <div class="form-group">
+        <label class="col-sm-3 control-label" for="card-holder-name">Card Holder Name</label>
+        <div class="col-sm-9">
+          <input class="form-control" type="text" formControlName="nameOnCard" placeholder="Andrew Lee" [ngClass]="{ 'is-invalid': (formControls.nameOnCard.dirty || formControls.nameOnCard.touched) && formControls.nameOnCard.errors }">
+          <div *ngIf="!formControls.nameOnCard.valid && (formControls.nameOnCard.dirty || formControls.nameOnCard.touched)" class="invalid-feedback">
+              <div *ngIf="formControls.nameOnCard.errors" class="alert alert-danger">Invalid Cardholder Name.</div>
+          </div>
+          </div>
+      </div>
+      <div class="form-group">
+        <label class="col-sm-3 control-label" for="expiry-month">Expiration Date</label>
+        <div class="col-sm-9">
+          <div class="row">
+            <div class="col-xs-3">
+
+              <select class="form-control col-sm-2" formControlName="expirationMonth" id="expiry-month" [ngClass]="{ 'is-invalid': !formControls.expirationMonth.valid && (formControls.expirationMonth.dirty || formControls.expirationMonth.touched) }">
+                <option>Month</option>
+                <option 
+                    *ngFor="let month of months"
+                    [value]="month.id">
+                    {{month.name}}
+              </option>
+              </select>
+            </div>
+            <div class="col-xs-3">
+              <select class="form-control" formControlName="expirationYear" [ngClass]="{ 'is-invalid': formControls.expirationYear.errors && (formControls.expirationYear.dirty || formControls.expirationYear.touched) }" >
+                <option 
+                    *ngFor="let year of years"
+                    [value]="year.id">
+                    {{year.value}}
+              </option>
+              </select>
+            </div>
+            <div *ngIf="( !formControls.expirationMonth.valid && (formControls.expirationMonth.dirty || formControls.expirationMonth.touched) ) || ( !formControls.expirationYear.valid && (formControls.expirationYear.dirty || formControls.expirationYear.touched))" class="invalid-feedback">
+              <div *ngIf="formControls.expirationMonth.errors || formControls.expirationYear.errors" class="alert alert-danger">Invalid Date of Expiration.</div>
+          </div>
+          </div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="col-sm-3 control-label" for="cvv">Security Code - CVV</label>
+        <div class="col-sm-3">
+          <input class="form-control" formControlName="cardCVVNumber" placeholder="123" [ngClass]="{ 'is-invalid': formControls.cardCVVNumber.errors && (formControls.cardCVVNumber.dirty || formControls.cardCVVNumber.touched) }">
+          <div *ngIf="!formControls.cardCVVNumber.valid && (formControls.cardCVVNumber.dirty || formControls.cardCVVNumber.touched)" class="invalid-feedback">
+              <div *ngIf="formControls.cardCVVNumber.errors" class="alert alert-danger">Invalid CVV / Security Code</div>
+          </div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="col-sm-3 control-label" for="card-holder-name">Amount in Rs.</label>
+        <div class="col-sm-9">
+          <input class="form-control" type="text" formControlName="amount" [ngClass]="{ 'is-invalid': (formControls.amount.dirty || formControls.amount.touched) && formControls.amount.errors }">
+          <div *ngIf="!formControls.amount.valid && (formControls.amount.dirty || formControls.amount.touched)" class="invalid-feedback">
+              <div *ngIf="formControls.amount.errors" class="alert alert-danger">Invalid Amount.</div>
+          </div>
+          </div>
+      </div>
+      <div class="form-group">
+        <div class="col-sm-offset-3 col-sm-9">
+          <button type="submit" class="btn btn btn-success">Proceed</button>
+        </div>
+      </div>
+    </fieldset>
+      <div *ngIf="paymentForm.invalid" class="alert alert-danger">{{errorMessage}}</div>
+  </form>
+</div>
+
+
